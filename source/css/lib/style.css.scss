@@ -1,3 +1,21 @@
 @import 'functions';
+$bg1 :  #555;
+$bg2 :  #fff;
+$bg3 :  #777;
 
-  
+#slider{
+	min-height: 420px;
+	background-color: $bg1;
+}
+#content{
+	min-height: 600px;
+	background-color: $bg2;
+}
+#contact{
+	min-height: 300px;
+	background-color: $bg1;
+}
+#footer{
+	min-height: 400px;
+	background-color: $bg3;
+}
