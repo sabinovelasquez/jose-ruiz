@@ -1,0 +1,24 @@
+!!!
+%html(lang='es')
+  %head
+
+    %meta{:charset => 'utf-8'}
+    %meta(http-equiv = 'X-UA-Compatible' content = 'IE=edge')
+    %meta(name = 'viewport' content = 'width=device-width, initial-scale=1, maximum-scale=1')
+    
+    %meta(property = 'og:url' content = 'http://site.com')
+    %meta(property = 'og:title' content = 'Jose Ruiz - Fotógrafo' )
+    %meta(property = 'og:image' content = 'http://site.com/img/fb.png' )
+    %meta(property = 'og:description' content = 'desc')
+
+  %title 
+    = current_page.data.title || 'Jose Ruiz - Fotografía'
+  = stylesheet_link_tag 'all'
+
+  %body
+    = partial 'partial/header'
+    = partial 'sidebar'
+    = yield
+    = partial 'partial/footer'
+    
+    = javascript_include_tag 'all'
