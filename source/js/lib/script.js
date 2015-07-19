@@ -1,3 +1,6 @@
+"use-strict";
+
+var gsheet = 'https://docs.google.com/spreadsheets/d/1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8/';
 
 function FlickrPhotoSet(albumId){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=100&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
@@ -19,4 +22,6 @@ function FlickrPhotoSet(albumId){
         });
     });
 };
-FlickrPhotoSet('72157631622073873');
+
+
+FlickrPhotoSet('72157635843510335');
