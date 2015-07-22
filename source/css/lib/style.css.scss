@@ -2,9 +2,11 @@
 $bg1 :  #555;
 $bg2 :  #fff;
 $bg3 :  #777;
+$pcolor : #acb672;
 
 body{
 	font-family: 'Lato';
+	background: url('img/brickwall.png');
 }
 
 #slider{
@@ -20,6 +22,12 @@ body{
 	}
 }
 #profile{
+	@include transition(all .3s ease);
+	-webkit-transform: translate3d(0px, 0px, 0px);
+	-moz-transform: translate3d(0px, 0px, 0px);
+	-ms-transform: translate3d(0px, 0px, 0px);
+	-o-transform: translate3d(0px, 0px, 0px);
+	transform: translate3d(0px, 0px, 0px);
 	width: 150px;
 	height: 150px;
 	position: absolute;
@@ -28,12 +36,21 @@ body{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	background-color: $bg3;
+	background: url('img/logo.png') $pcolor;
+	background-size: contain;
+	border: 6px solid #fff;
+	&:hover{
+		border: 2px solid #fff;
+		-moz-transform: rotate(-8deg);
+		-ms-transform: rotate(-8deg);
+		-webkit-transform: rotate(-8deg);
+		-o-transform: rotate(-8deg);
+		transform: rotate(-8deg);
+	}
 }
 #content{
 	margin-top: 100px;
 	min-height: 600px;
-	background-color: $bg2;
 	#gal{
 		.item{
 			padding: 0;
@@ -62,7 +79,7 @@ body{
 					width: 200%;
 					height: 200%;
 					opacity: 0;
-					background-color:#000;
+					background: url('img/overlay.png');
 				}
 			}
 		}
