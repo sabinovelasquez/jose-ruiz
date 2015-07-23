@@ -15,13 +15,13 @@ function FlickrPhotoSet(albumId){
             var a_href = "http://www.flickr.com/photos/" + data.photoset.owner + "/" + item.id + "/";
             $("#gal").append(img);
         });
-        $('#gal').imagesLoaded( function(){
-            $('#content').isotope({
-                itemSelector : '.item'
-            });
-        });
+        // $('#gal').imagesLoaded( function(){
+        //     $('#content').isotope({
+        //         itemSelector : '.item'
+        //     });
+        // });
     });
 };
 
 
-FlickrPhotoSet('72157635843510335');
+FlickrPhotoSet('72157631786914725');
