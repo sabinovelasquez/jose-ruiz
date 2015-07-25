@@ -1,6 +1,18 @@
 "use-strict";
 
-var gsheet = 'https://docs.google.com/spreadsheets/d/1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8/';
+var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
+    url = 'https://spreadsheets.google.com/feeds/list/' + gsheet + '/od6/public/values?alt=json',
+    casos = [],
+    w=0,
+    h=0;
+
+var Caso = function(name, description, flickrId, category, published) {
+    name = this.name;
+    description = this.description;
+    flickrId = this.flickrId;
+    category = this.category;
+    published = this.published;
+}
 
 function FlickrPhotoSet(albumId){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=100&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
@@ -15,13 +27,30 @@ function FlickrPhotoSet(albumId){
             var a_href = "http://www.flickr.com/photos/" + data.photoset.owner + "/" + item.id + "/";
             $("#gal").append(img);
         });
-        // $('#gal').imagesLoaded( function(){
-        //     $('#content').isotope({
-        //         itemSelector : '.item'
-        //     });
-        // });
     });
 };
 
+function makeCases(){
+    $(casos).each(function(index, item){
 
-FlickrPhotoSet('72157631786914725');
+    });
+}
+
+$.getJSON(url, function(data) {
+    var entry = data.feed.entry;
+    $(entry).each(function(index, item){
+        var caso = new Caso();
+        caso.name = item.gsx$nombre.$t;
+        caso.description = item.gsx$descripcion.$t;
+        caso.category = item.gsx$categoria.$t;
+        caso.flickrId = item.gsx$flickrid.$t;
+        caso.published = item.gsx$publicado.$t;
+        casos.push(caso);
+    });
+    makeCases();
+});
+
+
+
+
+//FlickrPhotoSet('72157631786914725');
