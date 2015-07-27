@@ -25,7 +25,7 @@ case ENV['TARGET'].to_s.downcase
   when 'production'
     activate :deploy do |deploy|
     deploy.method   = :ftp
-    deploy.host     = 'IP'
+    deploy.host     = 'IP -private'
     deploy.path     = 'public_html/'
     deploy.user     = 'user'
     deploy.password = 'pass'
