@@ -14,6 +14,7 @@ var Caso = function() {
     published = this.published;
     photos = this.photos;
 }
+
 var Album = function (){
     // $.each(data.photoset.photo, function(index,item){
     //     console.log(item);
@@ -26,19 +27,27 @@ var Album = function (){
     //     $("#gal").append(img);
     // });
 }
-function FlickrPhotoSet(albumId, caso){
+
+function FlickrPhotoSet(albumId, caso, template){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=100&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
     $.getJSON(apiCall, function(data){
         caso.photos = data.photoset.photo;
+    }).done(function(){
+        var bg = "http://farm" + caso.photos[0].farm + ".static.flickr.com/" + caso.photos[0].server + "/" + caso.photos[0].id + "_" + caso.photos[0].secret;
+        console.log( bg );
+        template.find('.bg').css({'background-image':'url("'+bg+'.jpg")'});
     });
-
 };
 
 function makeCases(){
     $(casos).each(function(index, item){
-        FlickrPhotoSet(item.flickrId, item);
+        var template = $('#caso-template').clone().removeAttr('id');
+        //template.addClass(item.category);
+        template.find('.title h3').text(item.name);
+        template.find('.desc p').text(item.description);
+        template.appendTo('#gal');
+        FlickrPhotoSet(item.flickrId, item, template);
     });
-    console.log(casos);
 }
 
 $.getJSON(url, function(data) {
