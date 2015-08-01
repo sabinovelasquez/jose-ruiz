@@ -87,7 +87,6 @@ body{
 	#modal-casos{
 		margin-bottom: 50px;
 		ol.carousel-indicators {
-			//position: fixed;
 			bottom: -50px;
 			li{
 				border-color:$pcolor;
@@ -98,6 +97,22 @@ body{
 		}
 		h3{
 			font-weight: 300;
+		}
+	}
+	.carousel-control{
+		background: none;
+		&.left span{
+			left:0;
+		}
+		&.right span{
+			right:0;
+		}
+		span{
+			text-shadow: none;
+			top: 50%;
+			margin-top: -14px;
+			position: absolute;
+			color: $pcolor;
 		}
 	}
 }
