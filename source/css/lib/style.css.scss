@@ -3,6 +3,7 @@ $bg1 :  #555;
 $bg2 :  #fff;
 $bg3 :  #777;
 $pcolor : #acb672;
+$text-color : #414141;
 
 body{
 	font-family: 'Lato';
@@ -16,10 +17,12 @@ body{
 }
 
 .modal-content {
-	height: 100%;
+	min-height: 100%;
 	border-radius: 0;
 	border:none;
+	background: url('img/brillant.png');
 	.close-modal{
+		@include transition(all .3s ease);
 		position: absolute;
 		top: 25px;
 		right: 25px;
@@ -27,7 +30,16 @@ body{
 		height: 75px;
 		background-color: transparent;
 		cursor: pointer;
+		&:hover{
+			.lr{
+				height: 85px;
+				.rl{
+					height: 85px;
+				}
+			}
+		}
 		.lr {
+			@include transition(all .3s ease);
 			z-index: 1051;
 			width: 1px;
 			height: 75px;
@@ -37,6 +49,7 @@ body{
 			-ms-transform: rotate(45deg);
 			transform: rotate(45deg);
 			.rl {
+				@include transition(all .3s ease);
 				z-index: 1052;
 				width: 1px;
 				height: 75px;
@@ -60,21 +73,35 @@ body{
 		bottom: 80px;
 	}
 }
-#modal-casos{
-	ol.carousel-indicators {
-		position: fixed;
-		bottom: 0;
-		li{
-			border-color:$pcolor;
-			&.active{
-				background-color: $pcolor;
+#caso{
+	h2{
+		font-weight: 300;
+		text-transform: uppercase;
+		color: $pcolor;
+		line-height: 75px;
+		color: $text-color;
+		width: 50%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#modal-casos{
+		margin-bottom: 50px;
+		ol.carousel-indicators {
+			//position: fixed;
+			bottom: -50px;
+			li{
+				border-color:$pcolor;
+				&.active{
+					background-color: $pcolor;
+				}
 			}
 		}
-	}
-	.caso-info{
-		margin-top: 100px;
+		h3{
+			font-weight: 300;
+		}
 	}
 }
+	
 #profile{
 	@include transition(all .3s ease);
 	-webkit-transform: translate3d(0px, 0px, 0px);

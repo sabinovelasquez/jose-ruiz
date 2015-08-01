@@ -16,6 +16,7 @@ var Caso = function() {
 }
 
 var Album = function (){
+
     // $.each(data.photoset.photo, function(index,item){
     //     console.log(item);
     //     var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret;
@@ -26,6 +27,32 @@ var Album = function (){
     //     var a_href = "http://www.flickr.com/photos/" + data.photoset.owner + "/" + item.id + "/";
     //     $("#gal").append(img);
     // });
+}
+
+function getCase(key){
+    var caso = casos[key];
+    $('#caso-title').text(caso.name);
+    $('#modal-casos .caso-info').empty();
+    $('#modal-casos ol').empty();
+    $(caso.photos).each(function(index, photo){
+        var active = '';
+        if(index == 0){
+            active = 'active';
+        }
+        var img_src = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + '_b.jpg';
+        var li = '<li class="'+active+'" data-target = "#modal-casos" data-slide-to = "'+index+'" ></li>';
+        var item = '<div class="item '+active+'">';
+        item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
+        item += '<img class="img-responsive" src="'+img_src+'" alt="'+photo.name+'" />';
+        item += '</div><!--.col-->';
+        item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
+        item += '<h3 class="text-center">'+photo.title+'</h3>';
+        item += '</div><!--.col-->';
+        item += '</div><!--.item-->';
+        
+        $('#modal-casos ol').append(li);
+        $('#modal-casos .caso-info').append(item);
+    });
 }
 
 function FlickrPhotoSet(albumId, caso, template){
@@ -42,11 +69,15 @@ function FlickrPhotoSet(albumId, caso, template){
 function makeCases(){
     $(casos).each(function(index, item){
         var template = $('#caso-template').clone().removeAttr('id');
-        //template.addClass(item.category);
+        template.find('.hover').attr('data' , index);
         template.find('.title h3').text(item.name);
         template.find('.desc p').text(item.description);
         template.appendTo('#gal');
         FlickrPhotoSet(item.flickrId, item, template);
+    });
+    $('.hover').click(function(){
+        var key = $(this).attr('data');
+        getCase(key);
     });
 }
 
@@ -63,8 +94,3 @@ $.getJSON(url, function(data) {
     });
     makeCases();
 });
-
-
-
-
-//FlickrPhotoSet('72157631786914725');
