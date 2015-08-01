@@ -3,6 +3,7 @@
 var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
     url = 'https://spreadsheets.google.com/feeds/list/' + gsheet + '/od6/public/values?alt=json',
     casos = [],
+    count = 0,
     w=0,
     h=0;
 
@@ -21,13 +22,9 @@ function getCase(key){
     $('#modal-casos .caso-info').empty();
     $('#modal-casos ol').empty();
     $(caso.photos).each(function(index, photo){
-        var active = '';
-        if(index == 0){
-            active = 'active';
-        }
         var img_src = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + '_b.jpg';
-        var li = '<li class="'+active+'" data-target = "#modal-casos" data-slide-to = "'+index+'" ></li>';
-        var item = '<div class="item '+active+'">';
+        var li = '<li data-target = "#modal-casos" data-slide-to = "'+index+'" ></li>';
+        var item = '<div class="item">';
         item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
         item += '<img class="img-responsive center-block" src="'+img_src+'" alt="'+photo.name+'" />';
         item += '</div><!--.col-->';
@@ -39,18 +36,38 @@ function getCase(key){
         $('#modal-casos ol').append(li);
         $('#modal-casos .caso-info').append(item);
     });
+    $('#modal-casos .caso-info .item').first().addClass('active');
+    $('#modal-casos ol li').first().addClass('active');
+}
+function getCover(caso, key){
+    var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=879b5cce332ccaa2acbcd726412bbaab&photo_id='+key+'&format=json&nojsoncallback=1';
+    $.getJSON(apiurl, function(data){
+        caso.cover = data.sizes.size[10].source;
+    }).done(function(){
+        var li = '<li data-target = "#slider" data-slide-to = "'+count+'" ></li>';
+        var item = '<div class="item" style = " background-image: url(\''+caso.cover+'\') ">';
+        item += '<div class="carousel-caption"> <h1 class="text-center">'+caso.name+'</h1> <p>'+caso.description+'</p> </div>';
+        item += '</div><!--.item-->';
+        
+        $('#slider ol').append(li);
+        $('#slider .slides').append(item);
+        $('#slider .slides .item').first().addClass('active');
+        $('#slider ol li').first().addClass('active');
+        count ++;
+    });
+
 }
 
 function FlickrPhotoSet(albumId, caso, template){
-    var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=100&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
+    var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=50&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
     $.getJSON(apiCall, function(data){
         caso.photos = data.photoset.photo;
     }).done(function(){ 
         var bg = "http://farm" + caso.photos[0].farm + ".static.flickr.com/" + caso.photos[0].server + "/" + caso.photos[0].id + "_" + caso.photos[0].secret;
-        caso.cover = bg + '_b.jpg';
+        getCover(caso, caso.photos[0].id);
         template.find('.bg').css({'background-image':'url("'+bg+'.jpg")'});
     });
-    console.log(casos);
+    
 };
 
 function makeCases(){

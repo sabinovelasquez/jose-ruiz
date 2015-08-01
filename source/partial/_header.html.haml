@@ -1,21 +1,4 @@
-/ %nav.navbar.navbar-default.navbar-fixed-top
-
 #slider.carousel.slide( data-ride = 'carousel' )
 	%ol.carousel-indicators
-		%li.active( data-target = '#slider' data-slide-to = '0' )
-		%li( data-target = '#slider' data-slide-to = '1' )
-		%li( data-target = '#slider' data-slide-to = '2' )
-	.carousel-inner
-		.item.active
-			.carousel-caption
-				%h1.text-center Text 1
-				%p Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		.item
-			.carousel-caption
-				%h1.text-center Text 2
-				%p Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		.item
-			.carousel-caption
-				%h1.text-center Text 
-				%p Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	.carousel-inner.slides
 #profile

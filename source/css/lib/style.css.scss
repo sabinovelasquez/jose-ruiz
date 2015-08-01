@@ -62,9 +62,11 @@ body{
 	}
 }
 #slider{
-	.item{
-		min-height: 420px;
-		background-color: $bg1;
+	min-height: 540px;
+	background-color: $pcolor;
+	.item{		
+		min-height: 540px;
+		background-size: cover;
 	}
 	.carousel-caption{
 		padding-bottom: 90px;
