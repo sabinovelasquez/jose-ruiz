@@ -15,20 +15,6 @@ var Caso = function() {
     photos = this.photos;
 }
 
-var Album = function (){
-
-    // $.each(data.photoset.photo, function(index,item){
-    //     console.log(item);
-    //     var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret;
-    //     var dataB = img_src + "_o.jpg";
-    //     var img = '<div class="col-xs-12 col-sm-4 col-lg-3 item">';
-    //     img += '<a data = "'+dataB+'" ><div class="hover"></div><img class="img-responsive center-block" src="'+img_src+'.jpg" /></a>';
-    //     img += '</div>';
-    //     var a_href = "http://www.flickr.com/photos/" + data.photoset.owner + "/" + item.id + "/";
-    //     $("#gal").append(img);
-    // });
-}
-
 function getCase(key){
     var caso = casos[key];
     $('#caso-title').text(caso.name);
@@ -43,7 +29,7 @@ function getCase(key){
         var li = '<li class="'+active+'" data-target = "#modal-casos" data-slide-to = "'+index+'" ></li>';
         var item = '<div class="item '+active+'">';
         item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
-        item += '<img class="img-responsive" src="'+img_src+'" alt="'+photo.name+'" />';
+        item += '<img class="img-responsive center-block" src="'+img_src+'" alt="'+photo.name+'" />';
         item += '</div><!--.col-->';
         item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
         item += '<h3 class="text-center">'+photo.title+'</h3>';
