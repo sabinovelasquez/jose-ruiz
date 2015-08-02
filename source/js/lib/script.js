@@ -40,9 +40,11 @@ function getCase(key){
     $('#modal-casos ol li').first().addClass('active');
 }
 function getCover(caso, key){
-    var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=879b5cce332ccaa2acbcd726412bbaab&photo_id='+key+'&format=json&nojsoncallback=1';
+    var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=6d578cf191cfbff7d715f5ee286784b8&photo_id='+key+'&format=json&nojsoncallback=1';
     $.getJSON(apiurl, function(data){
+        console.log(data);
         caso.cover = data.sizes.size[10].source;
+
     }).done(function(){
         var li = '<li data-target = "#slider" data-slide-to = "'+count+'" ></li>';
         var item = '<div class="item" style = " background-image: url(\''+caso.cover+'\') ">';
