@@ -3,6 +3,7 @@
 var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
     url = 'https://spreadsheets.google.com/feeds/list/' + gsheet + '/od6/public/values?alt=json',
     casos = [],
+    masonry_pics = [],
     count = 0,
     w=0,
     h=0;
@@ -42,24 +43,31 @@ function getCase(key){
 function getCover(caso, key){
     var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=6d578cf191cfbff7d715f5ee286784b8&photo_id='+key+'&format=json&nojsoncallback=1';
     $.getJSON(apiurl, function(data){
-        console.log(data);
         caso.cover = data.sizes.size[10].source;
 
     }).done(function(){
-        var li = '<li data-target = "#slider" data-slide-to = "'+count+'" ></li>';
-        var item = '<div class="item" style = " background-image: url(\''+caso.cover+'\') ">';
-        item += '<div class="carousel-caption"> <h1 class="text-center">'+caso.name+'</h1> <p>'+caso.description+'</p> </div>';
-        item += '</div><!--.item-->';
+        masonry();
+        // var li = '<li data-target = "#slider" data-slide-to = "'+count+'" ></li>';
+        // var item = '<div class="item" style = " background-image: url(\''+caso.cover+'\') ">';
+        // item += '<div class="carousel-caption"> <h1 class="text-center">'+caso.name+'</h1> <p>'+caso.description+'</p> </div>';
+        // item += '</div><!--.item-->';
         
-        $('#slider ol').append(li);
-        $('#slider .slides').append(item);
-        $('#slider .slides .item').first().addClass('active');
-        $('#slider ol li').first().addClass('active');
-        count ++;
+        // $('#slider ol').append(li);
+        // $('#slider .slides').append(item);
+        // $('#slider .slides .item').first().addClass('active');
+        // $('#slider ol li').first().addClass('active');
+        // count ++;
     });
 
 }
-
+function masonry(){
+    console.warn('loading masonry...');
+    $(casos).each(function(index, item){
+        console.log(item.photos);
+        masonry_pics.push(item.photos);
+    });
+    console.log(masonry_pics);
+}
 function FlickrPhotoSet(albumId, caso, template){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=50&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
     $.getJSON(apiCall, function(data){
@@ -69,7 +77,6 @@ function FlickrPhotoSet(albumId, caso, template){
         getCover(caso, caso.photos[0].id);
         template.find('.bg').css({'background-image':'url("'+bg+'.jpg")'});
     });
-    
 };
 
 function makeCases(){
