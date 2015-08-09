@@ -41,41 +41,56 @@ function getCase(key){
     $('#modal-casos ol li').first().addClass('active');
 }
 function getCover(caso, key){
+    
     var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=6d578cf191cfbff7d715f5ee286784b8&photo_id='+key+'&format=json&nojsoncallback=1';
+    
     $.getJSON(apiurl, function(data){
         caso.cover = data.sizes.size[10].source;
-
-    }).done(function(){
-        masonry();
-        // var li = '<li data-target = "#slider" data-slide-to = "'+count+'" ></li>';
-        // var item = '<div class="item" style = " background-image: url(\''+caso.cover+'\') ">';
-        // item += '<div class="carousel-caption"> <h1 class="text-center">'+caso.name+'</h1> <p>'+caso.description+'</p> </div>';
-        // item += '</div><!--.item-->';
-        
-        // $('#slider ol').append(li);
-        // $('#slider .slides').append(item);
-        // $('#slider .slides .item').first().addClass('active');
-        // $('#slider ol li').first().addClass('active');
-        // count ++;
     });
 
 }
 function masonry(){
+
     console.warn('loading masonry...');
-    $(casos).each(function(index, item){
-        console.log(item.photos);
-        masonry_pics.push(item.photos);
+
+    masonry_pics = _.flatten(masonry_pics);
+    masonry_pics = _.shuffle(masonry_pics);
+
+    var grid = '';
+
+    $(masonry_pics).each(function(index, item){
+        var n_width = '';
+        if(index % 2 != 0){
+            //n_width = 'grid-item--width2';
+        }
+        var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
+        grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
     });
-    console.log(masonry_pics);
+    $('.grid').append(grid);
+    $('.grid').imagesLoaded( function(){
+        $('.grid').masonry({
+            itemSelector: '.grid-item'
+        });
+        var offset = $('.grid').height();
+        console.log(offset);
+        $('.grid').addClass('motion');
+        $('.motion').css({ 'top': - (offset-520) });
+    });
+    console.warn('masonry loaded.');
 }
 function FlickrPhotoSet(albumId, caso, template){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=50&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
     $.getJSON(apiCall, function(data){
         caso.photos = data.photoset.photo;
-    }).done(function(){ 
+    }).done(function(){
+        count ++;
+        masonry_pics.push(caso.photos);
         var bg = "http://farm" + caso.photos[0].farm + ".static.flickr.com/" + caso.photos[0].server + "/" + caso.photos[0].id + "_" + caso.photos[0].secret;
         getCover(caso, caso.photos[0].id);
         template.find('.bg').css({'background-image':'url("'+bg+'.jpg")'});
+        if(casos.length == count){
+            masonry();
+        }
     });
 };
 
