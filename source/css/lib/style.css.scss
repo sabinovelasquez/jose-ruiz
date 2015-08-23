@@ -15,7 +15,21 @@ body{
 	padding: 0;
 	margin: 0;
 }
-
+.invisible{
+	display:none;
+}
+#loader{
+	position: absolute;
+	top:40%;
+	left:50%;
+	margin-left:-20px;
+	color: #fff;
+	width:40px;
+	text-align:center;
+	i{
+		font-size: 30px;
+	}
+}
 .modal-content {
 	min-height: 100%;
 	border-radius: 0;
@@ -73,11 +87,11 @@ body{
 
 			img{
 				@include transition(all .3s ease);
-				filter: grayscale(.8);
-				-webkit-filter: grayscale(.8);
-				-moz-filter: grayscale(.8);
-				-o-filter: grayscale(.8);
-				-ms-filter: grayscale(.8);
+				filter: grayscale(1);
+				-webkit-filter: grayscale(1);
+				-moz-filter: grayscale(1);
+				-o-filter: grayscale(1);
+				-ms-filter: grayscale(1);
 				width: 100%;
 				&:hover{
 					filter: grayscale(0);

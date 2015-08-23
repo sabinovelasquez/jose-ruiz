@@ -68,11 +68,12 @@ function masonry(){
     });
     $('.grid').append(grid);
     $('.grid').imagesLoaded( function(){
+        $('.grid').removeClass('invisible')
         $('.grid').masonry({
             itemSelector: '.grid-item'
         });
         var offset = $('.grid').height();
-        console.log(offset);
+        //console.log(offset);
         $('.grid').addClass('motion');
         $('.motion').css({ 'top': - (offset-520) });
     });
