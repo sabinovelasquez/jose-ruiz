@@ -24,12 +24,10 @@ end
 case ENV['TARGET'].to_s.downcase
   when 'production'
     activate :deploy do |deploy|
-    deploy.method   = :sftp
-    deploy.host     = '45.55.240.255'
-    deploy.path     = '/var/www/sabino.cl/public_html/clients/joseruiz/'
-    deploy.port     = 22
-    deploy.build_before = true
-    deploy.user     = 'sabino'
+      deploy.method = :rsync
+      deploy.build_before = true
+      deploy.host = '45.55.240.255'
+      deploy.path = '/var/www/sabino.cl/public_html/clients/joseruiz'  
     end
   else
     activate :deploy do |deploy|
