@@ -73,10 +73,13 @@ function masonry(){
             itemSelector: '.grid-item'
         });
         var offset = $('.grid').height();
+        var headerH = $('.slider').height();
         //console.log(offset);
         $('.grid').addClass('motion');
-        $('.motion').css({ 'top': - (offset-520) });
+        $('.motion').css({ 'top': - (offset-headerH) });
     });
+
+    
     console.warn('masonry loaded.');
 }
 function FlickrPhotoSet(albumId, caso, template){
@@ -123,3 +126,20 @@ $.getJSON(url, function(data) {
     });
     makeCases();
 });
+
+(function($) {
+$.fn.randomize = function(childElem) {
+  return this.each(function() {
+      var $this = $(this);
+      var elems = $this.children(childElem);
+
+      elems.sort(function() { return (Math.round(Math.random())-0.5); });  
+
+      $this.remove(childElem);  
+
+      for(var i=0; i < elems.length; i++)
+        $this.append(elems[i]);      
+
+  });    
+}
+})(jQuery);
