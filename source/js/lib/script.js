@@ -5,6 +5,7 @@ var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
     casos = [],
     masonry_pics = [],
     count = 0,
+    reachedTop = 0,
     w=0,
     h=0;
 
@@ -15,6 +16,18 @@ var Caso = function() {
     category = this.category;
     published = this.published;
     photos = this.photos;
+}
+var ellipsis = "...";
+
+function TrimLength(text, maxLength) {
+    text = $.trim(text);
+
+    if (text.length > maxLength) {
+        text = text.substring(0, maxLength - ellipsis.length)
+        return text.substring(0, text.lastIndexOf(" ")) + ellipsis;
+    }else{
+        return text;
+    }
 }
 
 function getCase(key){
@@ -58,14 +71,19 @@ function masonry(){
 
     var grid = '';
 
-    $(masonry_pics).each(function(index, item){
+    // $(masonry_pics).each(function(index, item){
+    //     var n_width = '';
+    //     if(index % 2 != 0){
+    //         //n_width = 'grid-item--width2';
+    //     }
+    //     var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
+    //     grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
+    // });
+    for ( var i = 0; i<10; i++ ){
         var n_width = '';
-        if(index % 2 != 0){
-            //n_width = 'grid-item--width2';
-        }
-        var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
-        grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
-    });
+        var pic = 'http://farm' + masonry_pics[i].farm + '.static.flickr.com/' + masonry_pics[i].server + '/' + masonry_pics[i].id + '_' + masonry_pics[i].secret + '.jpg';
+        grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + masonry_pics[i].title + '" /> </div>'; 
+    }
     $('.grid').append(grid);
     $('.grid').imagesLoaded( function(){
         $('.grid').removeClass('invisible')
@@ -73,10 +91,20 @@ function masonry(){
             itemSelector: '.grid-item'
         });
         var offset = $('.grid').height();
-        var headerH = $('.slider').height();
-        //console.log(offset);
-        $('.grid').addClass('motion');
-        $('.motion').css({ 'top': - (offset-headerH) });
+        var headerH = $('#slider').height();
+        console.log(headerH);
+        // $('.grid').addClass('motion');
+        // $('.motion').css({ 'top': - (offset-headerH) });
+        // $('.motion').on('transitionend webkitTransitionEnd', function(e){
+        //     if(reachedTop != 0){
+        //         reachedTop = 0;
+        //         $('.motion').css({ 'top': - (offset-headerH) });
+        //     }else{
+        //         reachedTop = 1;
+        //         $('.motion').css({ 'top': 0 });
+        //     }
+            
+        // });
     });
 
     
@@ -103,7 +131,7 @@ function makeCases(){
         var template = $('#caso-template').clone().removeAttr('id');
         template.find('.hover').attr('data' , index);
         template.find('.title h3').text(item.name);
-        template.find('.desc p').text(item.description);
+        template.find('.desc p').text(TrimLength(item.description, 100));
         template.appendTo('#gal');
         FlickrPhotoSet(item.flickrId, item, template);
     });

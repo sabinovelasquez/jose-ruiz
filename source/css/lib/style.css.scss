@@ -77,11 +77,14 @@ body{
 	}
 }
 #slider{
+	position: relative;
 	height: 400px;
 	background-color: $pcolor;
 	overflow: hidden;
 	.grid{
-		@include transition(all 500s linear);
+		// @include transition(all 500s linear);
+		// -webkit-animation-direction: alternate; /* Chrome, Safari, Opera */
+		// animation-direction: alternate;
 		top:0;
 		.grid-item{
 			width:25%;
@@ -172,6 +175,7 @@ body{
 	-ms-transform: translate3d(0px, 0px, 0px);
 	-o-transform: translate3d(0px, 0px, 0px);
 	transform: translate3d(0px, 0px, 0px);
+	top:400px;
 	width: 150px;
 	height: 150px;
 	position: absolute;
