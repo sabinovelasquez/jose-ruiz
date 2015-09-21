@@ -4,8 +4,12 @@ var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
     url = 'https://spreadsheets.google.com/feeds/list/' + gsheet + '/od6/public/values?alt=json',
     casos = [],
     masonry_pics = [],
+    coverPics = [],
+    rotatePic = 4,
     count = 0,
+    totalPics = 0,
     reachedTop = 0,
+    picInterval,
     w=0,
     h=0;
 
@@ -28,6 +32,14 @@ function TrimLength(text, maxLength) {
     }else{
         return text;
     }
+}
+
+function swapPic(){
+    var rand = Math.floor(Math.random() * 8 );
+    var randPic = Math.floor(Math.random() *coverPics.length );
+    var newPic = coverPics[randPic];
+    $('img#cp_'+rand).attr('src', newPic);
+    $('.grid').masonry('layout');
 }
 
 function getCase(key){
@@ -53,6 +65,7 @@ function getCase(key){
     $('#modal-casos .caso-info .item').first().addClass('active');
     $('#modal-casos ol li').first().addClass('active');
 }
+
 function getCover(caso, key){
     
     var apiurl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=6d578cf191cfbff7d715f5ee286784b8&photo_id='+key+'&format=json&nojsoncallback=1';
@@ -62,6 +75,7 @@ function getCover(caso, key){
     });
 
 }
+
 function masonry(){
 
     console.warn('loading masonry...');
@@ -70,20 +84,21 @@ function masonry(){
     masonry_pics = _.shuffle(masonry_pics);
 
     var grid = '';
+    totalPics = masonry_pics.length;
 
-    // $(masonry_pics).each(function(index, item){
-    //     var n_width = '';
-    //     if(index % 2 != 0){
-    //         //n_width = 'grid-item--width2';
-    //     }
-    //     var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
-    //     grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
-    // });
-    for ( var i = 0; i<10; i++ ){
-        var n_width = '';
-        var pic = 'http://farm' + masonry_pics[i].farm + '.static.flickr.com/' + masonry_pics[i].server + '/' + masonry_pics[i].id + '_' + masonry_pics[i].secret + '.jpg';
-        grid += '<div class="grid-item ' + n_width + '"> <img src = "' + pic + '" alt = "' + masonry_pics[i].title + '" /> </div>'; 
-    }
+    $(masonry_pics).each(function(index, item){
+        var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
+        coverPics.push(pic);
+        grid += '<div class="grid-item"> <img id="cp_' + index + '" src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
+    });
+
+    // for ( var i = 0; i<10; i++ ){
+
+    //     var pic = 'http://farm' + masonry_pics[i].farm + '.static.flickr.com/' + masonry_pics[i].server + '/' + masonry_pics[i].id + '_' + masonry_pics[i].secret + '.jpg';
+    //     grid += '<div class="grid-item"> <img src = "' + pic + '" alt = "' + masonry_pics[i].title + '" /> </div>'; 
+
+    // }
+
     $('.grid').append(grid);
     $('.grid').imagesLoaded( function(){
         $('.grid').removeClass('invisible')
@@ -92,7 +107,6 @@ function masonry(){
         });
         var offset = $('.grid').height();
         var headerH = $('#slider').height();
-        console.log(headerH);
         // $('.grid').addClass('motion');
         // $('.motion').css({ 'top': - (offset-headerH) });
         // $('.motion').on('transitionend webkitTransitionEnd', function(e){
@@ -106,10 +120,10 @@ function masonry(){
             
         // });
     });
-
-    
+    picInterval = setInterval(swapPic, rotatePic*1000)
     console.warn('masonry loaded.');
 }
+
 function FlickrPhotoSet(albumId, caso, template){
     var apiCall = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&photoset_id='+albumId+'&per_page=50&page=1&api_key=6d578cf191cfbff7d715f5ee286784b8&jsoncallback=?';
     $.getJSON(apiCall, function(data){
@@ -154,20 +168,3 @@ $.getJSON(url, function(data) {
     });
     makeCases();
 });
-
-(function($) {
-$.fn.randomize = function(childElem) {
-  return this.each(function() {
-      var $this = $(this);
-      var elems = $this.children(childElem);
-
-      elems.sort(function() { return (Math.round(Math.random())-0.5); });  
-
-      $this.remove(childElem);  
-
-      for(var i=0; i < elems.length; i++)
-        $this.append(elems[i]);      
-
-  });    
-}
-})(jQuery);
