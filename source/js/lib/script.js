@@ -177,7 +177,7 @@ function makeCases(){
     });
 
     $(categories).each(function(index, item){
-        var tag = '<a class="btn btn-default btn-sm" data="'+item.clean+'"><i class="fa fa-tag"></i>'+item.name+'</a>';
+        var tag = '<a class="btn btn-default btn-sm" data="'+item.clean+'"><i class="fa fa-tag"></i> '+item.name+'</a>';
         $('#tags').append(tag);
     });
 

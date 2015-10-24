@@ -16,9 +16,15 @@ body{
 	margin: 0;
 }
 #tags{
-	position:absolute;
-	top:420px;
-	left:20px;
+	width: 100%;
+	height: auto;
+	float: left;
+	a{
+		background: $pcolor;
+		float: left;
+		margin: 8px;
+		color: #fff;
+	}
 }
 .invisible{
 	width: 0!important;
