@@ -3,6 +3,7 @@
 var gsheet = '1oojR3DLLsh6qOmn5Nm_Xl7yzSiPBAaFpccsx8E6Ez-8',
     url = 'https://spreadsheets.google.com/feeds/list/' + gsheet + '/od6/public/values?alt=json',
     casos = [],
+    categories = [],
     masonry_pics = [],
     coverPics = [],
     rotatePic = 4,
@@ -21,6 +22,11 @@ var Caso = function() {
     published = this.published;
     photos = this.photos;
 }
+var Category = function() {
+    name = this.name;
+    clean = this.clean;
+}
+
 var ellipsis = "...";
 
 function TrimLength(text, maxLength) {
@@ -32,6 +38,10 @@ function TrimLength(text, maxLength) {
     }else{
         return text;
     }
+}
+
+function cleanText(input) {
+    return input.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 }
 
 function swapPic(){
@@ -50,12 +60,12 @@ function getCase(key){
     $(caso.photos).each(function(index, photo){
         var img_src = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + '_b.jpg';
         var li = '<li data-target = "#modal-casos" data-slide-to = "'+index+'" ></li>';
+        var name = '<h3 class="text-center">'+photo.title+'</h3>';
         var item = '<div class="item">';
-        item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
+        item += '<div class="col-xs-12 col-sm-12 col-lg-12">';
         item += '<img class="img-responsive center-block" src="'+img_src+'" alt="'+photo.name+'" />';
         item += '</div><!--.col-->';
-        item += '<div class="col-xs-12 col-sm-12 col-lg-6">';
-        item += '<h3 class="text-center">'+photo.title+'</h3>';
+        item += '<div class="col-xs-12 col-sm-12 col-lg-12">';
         item += '</div><!--.col-->';
         item += '</div><!--.item-->';
         
@@ -89,7 +99,7 @@ function masonry(){
     $(masonry_pics).each(function(index, item){
         var pic = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg';
         coverPics.push(pic);
-        grid += '<div class="grid-item"> <img id="cp_' + index + '" src = "' + pic + '" alt = "' + item.title + '" /> </div>'; 
+        grid += '<div class="grid-item"> <img id="cp_' + index + '" src = "' + pic + '" /> </div>'; 
     });
 
     // for ( var i = 0; i<10; i++ ){
@@ -142,13 +152,42 @@ function FlickrPhotoSet(albumId, caso, template){
 
 function makeCases(){
     $(casos).each(function(index, item){
+
+        var category = new Category();
+
+        category.name = item.category;
+        category.clean = cleanText(item.category);
+
+        var exist = _.findIndex(categories, function(cat) {
+            return cat.name == category.name;
+        });
+
+        if(exist < 0 ){
+            categories.push(category);
+        }
+        
+
         var template = $('#caso-template').clone().removeAttr('id');
         template.find('.hover').attr('data' , index);
         template.find('.title h3').text(item.name);
         template.find('.desc p').text(TrimLength(item.description, 100));
+        template.addClass(category.clean);
         template.appendTo('#gal');
         FlickrPhotoSet(item.flickrId, item, template);
     });
+
+    $(categories).each(function(index, item){
+        var tag = '<a class="btn btn-default btn-sm" data="'+item.clean+'">'+item.name+'</a>';
+        $('#tags').append(tag);
+    });
+
+
+    $('#tags a').click(function(){
+        var filter = $(this).attr('data');
+        $('.item').addClass('invisible');
+        $('.'+filter).removeClass('invisible');
+    });
+
     $('.hover').click(function(){
         var key = $(this).attr('data');
         getCase(key);
@@ -164,7 +203,10 @@ $.getJSON(url, function(data) {
         caso.category = item.gsx$categoria.$t;
         caso.flickrId = item.gsx$flickrid.$t;
         caso.published = item.gsx$publicado.$t;
-        casos.push(caso);
+        if(caso.published == 1){
+            casos.push(caso);
+        }
+        
     });
     makeCases();
 });

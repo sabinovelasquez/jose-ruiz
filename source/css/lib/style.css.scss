@@ -16,7 +16,10 @@ body{
 	margin: 0;
 }
 .invisible{
-	display:none;
+	width: 0!important;
+	margin: 0!important;
+	padding: 0!important;
+	border: none!important;
 }
 #loader{
 	position: absolute;
@@ -203,6 +206,7 @@ body{
 			display: none;
 		}
 		.item{
+			@include transition(all .3s ease);
 			border: 2px solid transparent;
 			padding: 0;
 			margin:0;
