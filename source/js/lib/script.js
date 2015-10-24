@@ -183,9 +183,12 @@ function makeCases(){
 
 
     $('#tags a').click(function(){
+
         var filter = $(this).attr('data');
         $('.item').addClass('invisible');
         $('.'+filter).removeClass('invisible');
+        $('#tags a').removeClass('active')
+        $(this).addClass('active');
     });
 
     $('.hover').click(function(){

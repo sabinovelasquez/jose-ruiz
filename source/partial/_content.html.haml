@@ -1,8 +1,10 @@
 #content
 	.container
-		#tags
-			%a.btn.btn-default.btn-sm( data = "item" )
-				%i.fa.fa-tag
-				Todos
-		#gal.row
-			= partial 'partial/casos'
+		.col-sm-2
+			#tags
+				%a.btn.btn-default.btn-sm( data = "item" )
+					%i.fa.fa-tag
+					Todos
+		.col-sm-10
+			#gal.row
+				= partial 'partial/casos'
