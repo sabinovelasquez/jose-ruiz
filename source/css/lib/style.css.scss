@@ -16,14 +16,14 @@ body{
 	margin: 0;
 }
 #tags{
-	width: 100%;
-	height: auto;
-	float: left;
+	// width: 100%;
+	// height: auto;
+	// float: left;
 	a{
-		background: $pcolor;
-		float: left;
-		margin: 8px;
-		color: #fff;
+		// background: $pcolor;
+		// float: left;
+		margin: 4px;
+		// color: #fff;
 	}
 }
 .invisible{
@@ -189,12 +189,13 @@ body{
 	-ms-transform: translate3d(0px, 0px, 0px);
 	-o-transform: translate3d(0px, 0px, 0px);
 	transform: translate3d(0px, 0px, 0px);
-	top:400px;
+	// top:400px;
 	width: 150px;
 	height: 150px;
-	position: absolute;
-	left: 50%;
-	margin: -75px;
+	// position: absolute;
+	// left: 50%;
+	// margin: -75px;
+	margin-top:20px;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
