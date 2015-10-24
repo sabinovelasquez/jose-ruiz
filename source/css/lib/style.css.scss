@@ -7,7 +7,7 @@ $text-color : #414141;
 
 body{
 	font-family: 'Lato';
-	background: url('img/brickwall.png');
+	background: url('img/grunge_wall.png');
 }
 .modal-dialog {
 	width: 100%;
@@ -20,10 +20,25 @@ body{
 	// height: auto;
 	// float: left;
 	a{
+		cursor: pointer;
+		font-family: 'Biryani', sans-serif;
+		font-weight: 300;
+		border:none;
+		color: #666;
+		width:100%;
+		text-transform: uppercase;
+		float: left;
 		// background: $pcolor;
 		// float: left;
 		margin: 4px;
 		// color: #fff;
+		&:hover{
+			color:#000;
+			text-decoration: none;
+		}
+		&.active{
+			color:#000;
+		}
 	}
 }
 .invisible{
